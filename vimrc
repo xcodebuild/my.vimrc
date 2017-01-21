@@ -1,172 +1,227 @@
-"{{{ Base
-set shell=bash
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set smarttab
-set expandtab
-set foldmethod=marker
+" install plugins
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
+" ui
+Plug 'vim-airline/vim-airline'
+"Plug 'mhartington/oceanic-next'
+Plug 'morhetz/gruvbox'
+Plug 'zefei/vim-colortuner'
+" edit
+Plug 'scrooloose/nerdcommenter'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mattn/emmet-vim'
+Plug 'ciaranm/detectindent'
+Plug 'Yggdroot/indentLine'
+Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
+" tools
+Plug 'mhinz/vim-signify'
+Plug 'mhinz/vim-startify'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" version control
+Plug 'tpope/vim-fugitive'
+" language
+Plug 'flowtype/vim-flow', { 'do': 'npm install -g flow-bin' }
+"Plug 'pangloss/vim-javascript'
+Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim'
+Plug 'mxw/vim-jsx'
+" autocomplete
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" check
+Plug 'vim-syntastic/syntastic', { 'do': 'npm install -g eslint' }
+call plug#end()
+
+" config
+set tabstop=2 shiftwidth=2 expandtab
+"set foldmethod=syntax
+" tell it to use an undo file
+set undofile
+" set a directory to store the undo history
+set undodir=~/.vimundo/
 set t_Co=256
-"}}}
+set nu
 
-"{{{ Plugins
-    "{{{ Begin of Plug
-    call plug#begin('~/.vim/plugged')
-    "}}}
-    
-    "{{{ Plugins
-        "{{{ Common
-        Plug 'tpope/vim-sensible'
-        "}}}
-        "{{{ Neo
-        Plug 'Shougo/neocomplete.vim'
-        Plug 'Shougo/neosnippet'
-        Plug 'Shougo/neosnippet-snippets'
-        let g:acp_enableAtStartup = 0
-        " Use neocomplete.
-        let g:neocomplete#enable_at_startup = 1
-        " Use smartcase.
-        let g:neocomplete#enable_smart_case = 1
-        " Set minimum syntax keyword length.
-        let g:neocomplete#sources#syntax#min_keyword_length = 3
-        let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-        
-        " Define dictionary.
-        let g:neocomplete#sources#dictionary#dictionaries = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
-        
-        " Define keyword.
-        if !exists('g:neocomplete#keyword_patterns')
-            let g:neocomplete#keyword_patterns = {}
-        endif
-        let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-        
-        " Plugin key-mappings.
-        inoremap <expr><C-g>     neocomplete#undo_completion()
-        inoremap <expr><C-l>     neocomplete#complete_common_string()
-        
-        " Recommended key-mappings.
-        " <CR>: close popup and save indent.
-        inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-        function! s:my_cr_function()
-          return neocomplete#close_popup() . "\<CR>"
-          " For no inserting <CR> key.
-          "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-        endfunction
-        " <TAB>: completion.
-        inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-        " <C-h>, <BS>: close popup and delete backword char.
-        inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-        inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-        inoremap <expr><C-y>  neocomplete#close_popup()
-        inoremap <expr><C-e>  neocomplete#cancel_popup()
-        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-        
-        " Enable heavy omni completion.
-        if !exists('g:neocomplete#sources#omni#input_patterns')
-          let g:neocomplete#sources#omni#input_patterns = {}
-        endif
-        let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-        imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-        smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-        xmap <C-k>     <Plug>(neosnippet_expand_target)
-        
-        " SuperTab like snippets behavior.
-        imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)"
-        \: pumvisible() ? "\<C-n>" : "\<TAB>"
-        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)"
-        \: "\<TAB>"
-        
-        " For snippet_complete marker.
-        if has('conceal')
-          set conceallevel=2 concealcursor=i
-        endif
-        "}}}
-        "{{{ Appearance
-            "{{{ Airline
-            Plug 'bling/vim-airline'
-            if !exists('g:airline_symbols')
-              let g:airline_symbols = {}
-            endif
+set autoindent
+" for performance
+set ttyfast
+set lazyredraw
+set nocursorcolumn
+set nocursorline
+set norelativenumber
+syntax sync minlines=256
 
-            " unicode symbols
-            let g:airline_left_sep = '»'
-            let g:airline_left_sep = '▶'
-            let g:airline_right_sep = '«'
-            let g:airline_right_sep = '◀'
-            let g:airline_symbols.linenr = '␊'
-            let g:airline_symbols.linenr = '␤'
-            let g:airline_symbols.linenr = '¶'
-            let g:airline_symbols.branch = '⎇'
-            let g:airline_symbols.paste = 'ρ'
-            let g:airline_symbols.paste = 'Þ'
-            let g:airline_symbols.paste = '∥'
-            let g:airline_symbols.whitespace = 'Ξ'
+" theme
+" for vim 8
+if (has("termguicolors"))
+ set termguicolors
+endif
 
-            " powerline symbols
-            let g:airline_left_sep = ''
-            let g:airline_left_alt_sep = ''
-            let g:airline_right_sep = ''
-            let g:airline_right_alt_sep = ''
-            let g:airline_symbols.branch = ''
-            let g:airline_symbols.readonly = ''
-            let g:airline_symbols.linenr = ''
- 
-            "}}}
-            Plug 'flazz/vim-colorschemes'
-        "}}}
-        "{{{ Markdown
-        Plug 'godlygeek/tabular'
-        Plug 'plasticboy/vim-markdown'
-        "}}}
-        "{{{ Clang
-            "{{{ A nicer highlight
-            Plug 'octol/vim-cpp-enhanced-highlight'
-            let g:cpp_class_scope_highlight = 1
-            let g:cpp_experimental_template_highlight = 1
-            "}}}
-            "{{{ clang_complete
-            Plug 'Shougo/vimproc.vim',{'do':'make'}
-            Plug 'osyo-manga/vim-marching'
-            let g:marching#clang_command#options = {
-            \   "cpp" : "-std=c++11"
-            \}
-            
-            let g:marching_include_paths = [
-            \   "/usr/include/c++/4.9/"
-            \]
-            
-            let g:marching_enable_neocomplete = 1
-            if !exists('g:neocomplete#force_omni_input_patterns')
-              let g:neocomplete#force_omni_input_patterns = {}
-            endif
-            
-            let g:neocomplete#force_omni_input_patterns.cpp =
-                \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-            
-            set updatetime=200
-            
-            imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-            
-            imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
-            "}}}
-        "}}}
-    "}}}
-    
-    "{{{ End
-    call plug#end()
-    "}}}
-"}}}
+" For Neovim 0.1.3 and 0.1.4
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-"{{{ Custom
-colorscheme Tomorrow-Night
-"}}}
+" Or if you have Neovim >= 0.1.5
+if (has("termguicolors"))
+ set termguicolors
+endif
+
+" Theme
+syntax enable
+set background=dark
+colorscheme gruvbox
+
+" keybinding
+let mapleader=" "
+nmap <Leader>ss :BLines<CR>
+nmap <Leader>: :Commands<CR>
+nmap <Leader>pf :GFiles<CR>
+nmap <Leader>bb :History<CR>
+nmap <Leader>ww :Windows<CR>
+nmap <Leader>st :Tags<CR>
+nmap <Leader>sp :Ag<CR>
+nmap <Leader>gl :Commits<CR>
+nmap <Leader>;; <Leader>c<Leader>
+vmap <Leader>;; <Leader>c<Leader>
+nmap <Leader>jj <Plug>(easymotion-overwin-f)
+nmap <Leader>jJ <Plug>(easymotion-overwin-f2)
+nmap <Leader>jw <Plug>(easymotion-overwin-w)
+
+" airline
+set laststatus=2
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.maxlinenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
+
+ "powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+
+
+" javascript
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+set conceallevel=1
+
+" deoplete-ternjs
+" Use deoplete.
+
+"Add extra filetypes
+let g:tern#filetypes = [
+                \ 'jsx',
+                \ 'javascript.jsx',
+                \ 'vue',
+                \ '...'
+                \ ]
+
+" deoplete.
+let g:deoplete#enable_at_startup = 1
+" deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+
+" Use deoplete.
+let g:tern_request_timeout = 1
+"let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
+
+"Add extra filetypes
+let g:tern#filetypes = [
+                \ 'jsx',
+                \ 'javascript.jsx',
+                \ 'vue',
+                \ '...'
+                \ ]
+" Use tern_for_vim.
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
+
+" ctrlp.vim
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn))|node_modules$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+" Ignore files in .gitignore
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+
+let g:jsx_ext_required = 0
+
+let g:indentLine_char = '¦'
+let g:indentLine_enabled = 1
+
+" ========== fzf =============
+
+"============================
+
+function! s:ag_to_qf(line)
+  let parts = split(a:line, ':')
+  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+        \ 'text': join(parts[3:], ':')}
+endfunction
+
+function! s:ag_handler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let cmd = get({'ctrl-x': 'split',
+               \ 'ctrl-v': 'vertical split',
+               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+
+  let first = list[0]
+  execute cmd escape(first.filename, ' %#\')
+  execute first.lnum
+  execute 'normal!' first.col.'|zz'
+
+  if len(list) > 1
+    call setqflist(list)
+    copen
+    wincmd p
+  endif
+endfunction
+
+command! -nargs=* Ag call fzf#run({
+\ 'source':  printf('ag --nogroup --column --color "%s"',
+\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+\ 'sink*':    function('<sid>ag_handler'),
+\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+\            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+\            '--color hl:68,hl+:110',
+\ 'down':    '50%'
+\ })
+
+" flow
+let g:flow#enable = 0
+let g:flow#autoclose = 1
