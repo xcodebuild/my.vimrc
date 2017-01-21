@@ -6,6 +6,7 @@ Plug 'vim-airline/vim-airline'
 "Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
 Plug 'zefei/vim-colortuner'
+Plug 'ap/vim-css-color'
 " edit
 Plug 'scrooloose/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
@@ -14,19 +15,28 @@ Plug 'ciaranm/detectindent'
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'mbbill/undotree'
+Plug 'tmhedberg/matchit'
+Plug 'alvan/vim-closetag'
+Plug 'brooth/far.vim'
 " tools
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'danro/rename.vim'
+Plug 'roman/golden-ratio'
+Plug 't9md/vim-choosewin'
 " version control
 Plug 'tpope/vim-fugitive'
 " language
 Plug 'flowtype/vim-flow', { 'do': 'npm install -g flow-bin' }
-"Plug 'pangloss/vim-javascript'
-Plug 'othree/yajs.vim'
+Plug 'pangloss/vim-javascript'
+"Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
 Plug 'mxw/vim-jsx'
+Plug 'hail2u/vim-css3-syntax'
 " autocomplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -76,10 +86,16 @@ colorscheme gruvbox
 " keybinding
 let mapleader=" "
 nmap <Leader>ss :BLines<CR>
-nmap <Leader>: :Commands<CR>
+nmap <Leader>x :Commands<CR>
 nmap <Leader>pf :GFiles<CR>
 nmap <Leader>bb :History<CR>
-nmap <Leader>ww :Windows<CR>
+nmap <Leader>ws :Windows<CRA
+nmap <Leader>wm <C-w>o<CR>
+nmap <Leader>wc <C-w>c<CR>
+nmap <Leader>w/ :sp<CR>
+nmap <Leader>w\ :vsp<CR>
+nmap <Leader>0 <Plug>(choosewin)
+
 nmap <Leader>st :Tags<CR>
 nmap <Leader>sp :Ag<CR>
 nmap <Leader>gl :Commits<CR>
@@ -138,7 +154,6 @@ let g:tern#filetypes = [
                 \ 'jsx',
                 \ 'javascript.jsx',
                 \ 'vue',
-                \ '...'
                 \ ]
 
 " deoplete.
@@ -225,3 +240,10 @@ command! -nargs=* Ag call fzf#run({
 " flow
 let g:flow#enable = 0
 let g:flow#autoclose = 1
+
+
+" closetag
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.js,*.jsx"
+
+" window jump
+let g:choosewin_overlay_enable = 1
